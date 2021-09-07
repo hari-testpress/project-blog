@@ -1,4 +1,16 @@
 asgiref==3.4.1
+backports.entry-points-selectable==1.1.0
+cfgv==3.3.1
+distlib==0.3.2
 Django==3.2.7
+filelock==3.0.12
+identify==2.2.13
+nodeenv==1.6.0
+platformdirs==2.3.0
+pre-commit==2.15.0
 pytz==2021.1
+PyYAML==5.4.1
+six==1.16.0
 sqlparse==0.4.1
+toml==0.10.2
+virtualenv==20.7.2
