@@ -1,0 +1,1 @@
+Buliding a Django blog application.
