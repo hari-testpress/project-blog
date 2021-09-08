@@ -6,8 +6,8 @@ from .models import Post
 
 
 def post_list(request):
-    object_list = Post.published.all()
-    paginator = Paginator(object_list, 3)
+    published_post = Post.published.all()
+    paginator = Paginator(published_post, 3)
     page = request.GET.get("page")
 
     try:
