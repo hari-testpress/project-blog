@@ -58,17 +58,17 @@ def post_detail(request, year, month, day, post):
     else:
         comment_form = CommentForm()
 
-        return render(
-            request,
-            "blog/post/detail.html",
-            {
-                "post": post,
-                "comments": comments,
-                "new_comment": new_comment,
-                "comment_form": comment_form,
-                "similar_posts": post.get_top_four_similar_posts(),
-            },
-        )
+    return render(
+        request,
+        "blog/post/detail.html",
+        {
+            "post": post,
+            "comments": comments,
+            "new_comment": new_comment,
+            "comment_form": comment_form,
+            "similar_posts": post.get_top_four_similar_posts(),
+        },
+    )
 
 
 def post_share(request, post_id):
