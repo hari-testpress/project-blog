@@ -1,3 +1,4 @@
+from django.db.models import Count
 from .forms import CommentForm, EmailPostForm
 from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -65,6 +66,7 @@ def post_detail(request, year, month, day, post):
             "comments": comments,
             "new_comment": new_comment,
             "comment_form": comment_form,
+            "similar_posts": post.get_top_four_similar_posts(),
         },
     )
 
