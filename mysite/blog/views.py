@@ -1,8 +1,10 @@
 from .forms import CommentForm, EmailPostForm
 from django.shortcuts import render, get_object_or_404
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .models import Post
 from django.core.mail import send_mail
 from django.views.generic import ListView
+from taggit.models import Tag
 
 
 # Create your views here.
@@ -13,6 +15,24 @@ class PostListView(ListView):
     context_object_name = "posts"
     paginate_by = 3
     template_name = "blog/post/list.html"
+
+
+class PostListByTagview(ListView):
+    context_object_name = "posts"
+    paginate_by = 3
+    template_name = "blog/post/list.html"
+
+    def dispatch(self, request, *args, **kwargs):
+        self.tag = get_object_or_404(Tag, slug=self.kwargs.get("tag_slug"))
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_queryset(self):
+        return Post.published.filter(tags__in=[self.tag])
+
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data(**kwargs)
+        data["tag"] = self.tag
+        return data
 
 
 def post_detail(request, year, month, day, post):
