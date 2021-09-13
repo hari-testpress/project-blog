@@ -14,3 +14,4 @@ six==1.16.0
 sqlparse==0.4.1
 toml==0.10.2
 virtualenv==20.7.2
+django-taggit==1.5.1

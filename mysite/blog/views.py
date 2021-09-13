@@ -17,27 +17,22 @@ class PostListView(ListView):
     template_name = "blog/post/list.html"
 
 
-def post_list(request, tag_slug=None):
-    published_posts = Post.published.all()
-    tag = None
+class PostListByTagview(ListView):
+    context_object_name = "posts"
+    paginate_by = 3
+    template_name = "blog/post/list.html"
 
-    if tag_slug:
-        tag = get_object_or_404(Tag, slug=tag_slug)
-        published_posts = published_posts.filter(tags__in=[tag])
+    def dispatch(self, request, *args, **kwargs):
+        self.tag = get_object_or_404(Tag, slug=self.kwargs.get("tag_slug"))
+        return super().dispatch(request, *args, **kwargs)
 
-    paginator = Paginator(published_posts, 3)
-    page = request.GET.get("page")
-    try:
-        posts = paginator.page(page)
-    except PageNotAnInteger:
-        posts = paginator.page(1)
-    except EmptyPage:
-        posts = paginator.page(paginator.num_pages)
-    return render(
-        request,
-        "blog/post/list.html",
-        {"page": page, "posts": posts, "tag": tag},
-    )
+    def get_queryset(self):
+        return Post.published.filter(tags__in=[self.tag])
+
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data(**kwargs)
+        data["tag"] = self.tag
+        return data
 
 
 def post_detail(request, year, month, day, post):
