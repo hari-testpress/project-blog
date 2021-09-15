@@ -57,3 +57,4 @@ target/
 
 #virtual env
 blog-env/
+.env
